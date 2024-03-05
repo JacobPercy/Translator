@@ -17,12 +17,14 @@ class App(ctk.CTk):
         for widget in self.winfo_children():
             widget.destroy()
         
-    def translate(self, entry):
+    def translate(self, entry, output_text):
         input_text = entry.get()
         translated = ts.translate_text(input_text, translator="google", from_lang="auto", to_lang="en")
+        output_text.set(translated)
+        
         print(translated)
 
-    def handle_wait(self, event=None):
+    def handle_wait(self, output_text, event=None):
         # Cancel the previous waiting if any
         if hasattr(self, 'after_id'):
             self.entry.after_cancel(self.after_id)
@@ -33,17 +35,28 @@ class App(ctk.CTk):
     def launch_function(self):
         self.clear_screen()
         self.entry = ctk.CTkEntry(master=self,
-                               placeholder_text="CTkEntry",
+                               placeholder_text="Type text to be translated",
                                width=1000,
                                height=200,
                                border_width=10,
                                corner_radius=10,
-                               font=("Calibri",100))
+                               font=("Calibri",100,"bold"))
         self.entry.place(relx=0.5, rely=0.2, anchor=ctk.CENTER)
-        #self.entry.bind("<space>", lambda event: self.translate(self.entry))
-        self.entry.bind("<Return>", lambda event: self.translate(self.entry))
+        self.entry.bind("<Return>", lambda event: self.translate(self.entry,output_text))
         self.entry.bind("<KeyRelease>", self.handle_wait)
-        
+
+
+        output_text = ctk.StringVar()
+        output_text.set("Type text to be translated")
+        self.output_box = ctk.CTkEntry(master=self,
+                                       textvariable=output_text, 
+                                       width=1000, 
+                                       height=200,
+                                       border_width=10,
+                                       corner_radius=10,
+                                       font=("Calibri",100,"bold"))
+        self.output_box.place(relx=0.5, rely=0.8, anchor=ctk.CENTER)
+        self.output_box.configure(state="disabled")
 
 def main():
     ctk.set_appearance_mode("dark")
