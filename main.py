@@ -11,7 +11,7 @@ class App(ctk.CTk):
         self.window_title = ctk.CTkLabel(self,text="Translator",font = ("Calibri", 500))
         self.window_title.pack(pady=20)
         button = ctk.CTkButton(master=self, text="LAUNCH", height=200,width=800,command=self.launch_function, font = ("Calibri", 200,'bold'))
-        button.place(relx=0.5, rely=0.5, anchor=ctk.CENTER)
+        button.place(relx=0.5, rely=0.7, anchor=ctk.CENTER)
 
     def clear_screen(self):
         for widget in self.winfo_children():
