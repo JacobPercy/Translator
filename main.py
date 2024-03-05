@@ -19,35 +19,37 @@ class App(ctk.CTk):
         
     def translate(self, entry, output_text, to_language_str):
         input_text = entry.get()
-        translated = ts.translate_text(input_text, translator="google", from_lang="auto", to_lang=to_language_str)
-        output_text.set(translated)
+        print(to_language_str)
+
+        translated_result = ts.translate_text(input_text, translator="google", from_language="auto", to_language=to_language_str)
+        output_text.set(translated_result)
         
-        print(translated)
+        print(translated_result)
 
     def launch_function(self):
         self.clear_screen()
         self.entry = ctk.CTkEntry(master=self,
                                placeholder_text="Type text to be translated",
-                               width=1000,
-                               height=200,
+                               width=2500,
+                               height=400,
                                border_width=10,
                                corner_radius=10,
                                font=("Calibri",100,"bold"))
         self.entry.place(relx=0.5, rely=0.2, anchor=ctk.CENTER)
-        self.entry.bind("<Return>", lambda event: self.translate(self.entry,self.output_text,self.to_language_str))
+        self.entry.bind("<Return>", lambda event: self.translate(self.entry,self.output_text,self.to_lang.get()))
 
 
         self.output_text = ctk.StringVar()
         self.output_text.set("Type text to be translated")
         self.output_box = ctk.CTkEntry(master=self,
                                        textvariable=self.output_text, 
-                                       width=1000, 
-                                       height=200,
+                                       width=2500, 
+                                       height=400,
                                        border_width=10,
                                        corner_radius=10,
-                                       font=("Calibri",100,"bold"))
+                                       font=("Calibri",30))
         self.output_box.place(relx=0.5, rely=0.8, anchor=ctk.CENTER)
-        self.output_box.configure(state="disabled")
+        #self.output_box.configure(state="disabled")
 
 
         self.to_lang = ctk.CTkEntry(master=self,
@@ -58,9 +60,8 @@ class App(ctk.CTk):
                                     corner_radius=2,
                                     font=("Calibri",20))
         self.to_lang.place(relx=0.5,rely=0.5,anchor=ctk.CENTER)
-        self.to_lang.bind("<Return>",lambda event: self.translate(self.entry,self.output_text,self.to_language_str))
-        self.to_language_str = ctk.StringVar()
-        self.to_language_str = self.to_lang.get()
+        self.to_lang.bind("<Return>",lambda event: self.translate(self.entry,self.output_text,self.to_lang.get()))
+        
         
                                       
 
