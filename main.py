@@ -10,14 +10,12 @@ class App(ctk.CTk):
                 widget.destroy()
         
 
-        def button_function():
-            clear_screen(self.window_title)
+        def button_function(self):
+            self.clear_screen()
         
 
         self.title("Translator")
         self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
-
-
 
         self.window_title = ctk.CTkLabel(self,text="Translator",font = ("Calibri", 500))
         self.window_title.pack(pady=20)
@@ -28,6 +26,7 @@ class App(ctk.CTk):
 
 def main():
     ctk.set_appearance_mode("dark")
+    ctk.set_default_color_theme("green")
     App()
 
 if __name__ == "__main__":
