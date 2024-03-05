@@ -1,24 +1,55 @@
-from tkinter import *
+import customtkinter as ctk
+import translators as ts
 
-#Create an instance of tkinter frame
-win= Tk()
+class App(ctk.CTk):
+    
+    def __init__(self):
+        super().__init__()
+        self.title("Translator")
+        self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
 
-#Set the geometry of frame
-win.geometry("600x250")
+        self.window_title = ctk.CTkLabel(self,text="Translator",font = ("Calibri", 500))
+        self.window_title.pack(pady=20)
+        button = ctk.CTkButton(master=self, text="LAUNCH", height=200,width=800,command=self.launch_function, font = ("Calibri", 200,'bold'))
+        button.place(relx=0.5, rely=0.5, anchor=ctk.CENTER)
 
-#Create a frame
-frame = Frame(win)
-frame.pack(side="top", expand=True, fill="both")
+    def clear_screen(self):
+        for widget in self.winfo_children():
+            widget.destroy()
+        
+    def translate(self, entry):
+        input_text = entry.get()
+        translated = ts.translate_text(input_text, translator="google", from_lang="auto", to_lang="en")
+        print(translated)
 
-#Create a text label
-Label(frame,text="Enter the Password", font=('Helvetica',20)).pack(pady=20)
+    def handle_wait(self, event=None):
+        # Cancel the previous waiting if any
+        if hasattr(self.handle_wait, 'after_id'):
+            self.entry.after_cancel(self.handle_wait.after_id)
 
-def clear_frame():
-   for widgets in frame.winfo_children():
-      widgets.destroy()
+        # Schedule the translation after 1000 milliseconds (1 second)
+        self.handle_wait.after_id = self.entry.after(1000, self.translate, self.entry)
 
-#Create a button to close the window
-Button(frame, text="Clear", font=('Helvetica bold', 10), command=
-clear_frame).pack(pady=20)
+    def launch_function(self):
+        self.clear_screen()
+        self.entry = ctk.CTkEntry(master=self,
+                               placeholder_text="CTkEntry",
+                               width=1000,
+                               height=200,
+                               border_width=10,
+                               corner_radius=10,
+                               font=("Calibri",100))
+        self.entry.place(relx=0.5, rely=0.2, anchor=ctk.CENTER)
+        self.entry.bind("<space>", lambda event: self.translate(self.entry))
+        self.entry.bind("<Return>", lambda event: self.translate(self.entry))
+        self.entry.bind("<KeyRelease>", self.handle_wait)
+        
 
-win.mainloop()
+def main():
+    ctk.set_appearance_mode("dark")
+    ctk.set_default_color_theme("green")
+    app = App()
+    app.mainloop()
+
+if __name__ == "__main__":
+    main()
