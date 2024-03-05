@@ -22,6 +22,7 @@ class App(ctk.CTk):
 
     def button_function(self):
         self.clear_screen()
+        
 
 def main():
     ctk.set_appearance_mode("dark")
