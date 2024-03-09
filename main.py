@@ -6,23 +6,31 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("Translator")
-        self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
+        #self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
+        self.attributes("-fullscreen", True)
 
-        width_1 = self.winfo_screenwidth()
-        height_1 = self.winfo_screenheight()
+        self.width_1 = self.winfo_screenwidth()
+        self.height_1 = self.winfo_screenheight()
 
-        print(width_1)
-        print(height_1)
-
-        self.window_title = ctk.CTkLabel(self,text="Translator",font = ("Calibri", int(0.25 * height_1)))
+        self.window_title = ctk.CTkLabel(self,text="Translator",font = ("Calibri", int(0.25 * self.height_1)))
         self.window_title.pack(pady=20)
         button = ctk.CTkButton(master=self, 
                                text="LAUNCH", 
-                               height=int(.25 * height_1), 
-                               width=int(.25 * width_1), 
+                               height=int(.25 * self.height_1), 
+                               width=int(.25 * self.width_1), 
                                command=self.launch_function, 
-                               font = ("Calibri", int(0.25 * height_1),'bold'))
+                               font = ("Calibri", int(0.25 * self.height_1),'bold'))
         button.place(relx=0.5, rely=0.7, anchor=ctk.CENTER)
+        self.close_button()
+    
+    def close_button(self):
+        self.close = ctk.CTkButton(master=self, 
+                               text="X", 
+                               height=1, 
+                               width=1, 
+                               command=self.destroy, 
+                               font = ("Calibri", int(0.02 * self.height_1),'bold'))
+        self.close.place(relx=0.99, rely=0.01, anchor=ctk.CENTER)
 
     def clear_screen(self):
         for widget in self.winfo_children():
@@ -41,13 +49,13 @@ class App(ctk.CTk):
         print(translated_result)
 
     def swap_boxes(self):
-        print("button pressed")
         temp = self.input_text.get()
         self.input_text.set(self.output_text.get())
         self.output_text.set(temp)
 
     def launch_function(self):
         self.clear_screen()
+        self.close_button()
 
         width_1 = self.winfo_screenwidth()
         height_1 = self.winfo_screenheight()
@@ -58,28 +66,15 @@ class App(ctk.CTk):
                                placeholder_text="Type text to be translated",
                                textvariable=self.input_text,
 
-                               width=int(0.75 * width_1),
-                               height=int(0.25 * height_1),
+                               width=int(0.75 * self.width_1),
+                               height=int(0.25 * self.height_1),
                                border_width=10,
                                corner_radius=10,
-                               font=("Calibri",100,"bold"))
+                               font=("Calibri",30))
         self.entry.place(relx=0.5, rely=0.2, anchor=ctk.CENTER)
         self.entry.bind("<Return>", lambda event: self.translate(self.entry,self.output_text,self.to_lang.get()))
 
-        #Bottom box (output)
-        self.output_text = ctk.StringVar()
-        self.output_text.set("Type text to be translated")
-        self.output_box = ctk.CTkEntry(master=self,
-                                       textvariable=self.output_text, 
-                                       width=int(0.75 * width_1), 
-                                       height=int(0.25 * height_1),
-                                       border_width=10,
-                                       corner_radius=10,
-                                       font=("Calibri",30))
-        self.output_box.place(relx=0.5, rely=0.8, anchor=ctk.CENTER)
-        #self.output_box.configure(state="disabled")
-
-
+        #Box with language input
         self.to_lang = ctk.CTkEntry(master=self,
                                     placeholder_text="type language to translate to",
                                     width=500,
@@ -92,14 +87,40 @@ class App(ctk.CTk):
                                                                   self.output_text,
                                                                   self.to_lang.get()))
 
+        #Bottom box (output)
+        self.output_text = ctk.StringVar()
+        self.output_text.set("Type text to be translated")
+        self.output_box = ctk.CTkEntry(master=self,
+                                       textvariable=self.output_text, 
+                                       width=int(0.75 * self.width_1), 
+                                       height=int(0.25 * self.height_1),
+                                       border_width=10,
+                                       corner_radius=10,
+                                       font=("Calibri",30))
+        self.output_box.place(relx=0.5, rely=0.8, anchor=ctk.CENTER)
+        #self.output_box.configure(state="disabled")
 
+        
+
+        #Swap fields button
         self.swapper = ctk.CTkButton(master=self, 
                                text="Swap text", 
                                height=1, 
                                width=1, 
                                command=self.swap_boxes, 
-                               font = ("Calibri", int(0.05 * height_1),'bold'))
-        self.swapper.place(relx=0.2, rely=0.5, anchor=ctk.CENTER)
+                               font = ("Calibri", int(0.05 * self.height_1),'bold'))
+        self.swapper.place(relx=0.8, rely=0.5, anchor=ctk.CENTER)
+
+        #Translate button
+        self.translate_button = ctk.CTkButton(master=self, 
+                               text="Translate", 
+                               height=1, 
+                               width=1, 
+                               command=lambda: self.translate(self.entry,
+                                                              self.output_text,
+                                                              self.to_lang.get()), 
+                               font = ("Calibri", int(0.05 * self.height_1),'bold'))
+        self.translate_button.place(relx=0.2, rely=0.5, anchor=ctk.CENTER)
                                       
 
 def main():
