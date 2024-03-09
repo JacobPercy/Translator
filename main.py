@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import translators as ts
+import pyperclip as pc
 
 class App(ctk.CTk):
     
@@ -18,6 +19,7 @@ class App(ctk.CTk):
                                text="LAUNCH", 
                                height=int(.25 * self.height_1), 
                                width=int(.25 * self.width_1), 
+                               corner_radius=25,
                                command=self.launch_function, 
                                font = ("Calibri", int(0.25 * self.height_1),'bold'))
         button.place(relx=0.5, rely=0.7, anchor=ctk.CENTER)
@@ -26,11 +28,11 @@ class App(ctk.CTk):
     def close_button(self):
         self.close = ctk.CTkButton(master=self, 
                                text="X", 
-                               height=1, 
-                               width=1, 
+                               height=15, 
+                               width=20, 
                                command=self.destroy, 
-                               font = ("Calibri", int(0.02 * self.height_1),'bold'))
-        self.close.place(relx=0.99, rely=0.01, anchor=ctk.CENTER)
+                               font = ("Calibri", 15,'bold'))
+        self.close.place(relx=0.985, rely=0.03, anchor=ctk.CENTER)
 
     def clear_screen(self):
         for widget in self.winfo_children():
@@ -57,15 +59,14 @@ class App(ctk.CTk):
         self.clear_screen()
         self.close_button()
 
-        width_1 = self.winfo_screenwidth()
-        height_1 = self.winfo_screenheight()
+        self.width_1 = self.winfo_screenwidth()
+        self.height_1 = self.winfo_screenheight()
 
         #Top box (input)
         self.input_text = ctk.StringVar()
         self.entry = ctk.CTkEntry(master=self,
                                placeholder_text="Type text to be translated",
                                textvariable=self.input_text,
-
                                width=int(0.75 * self.width_1),
                                height=int(0.25 * self.height_1),
                                border_width=10,
@@ -121,6 +122,21 @@ class App(ctk.CTk):
                                                               self.to_lang.get()), 
                                font = ("Calibri", int(0.05 * self.height_1),'bold'))
         self.translate_button.place(relx=0.2, rely=0.5, anchor=ctk.CENTER)
+
+        #Copy buttons
+        self.copy_1 = ctk.CTkButton(master=self, 
+                               text="Copy", 
+                               height=1, 
+                               width=1, 
+                               command=lambda: pc.copy(self.input_text.get()))
+        self.copy_1.place(relx=0.1, rely=0.2, anchor=ctk.CENTER)
+
+        self.copy_2 = ctk.CTkButton(master=self, 
+                               text="Copy", 
+                               height=1, 
+                               width=1, 
+                               command=lambda: pc.copy(self.output_text.get()))
+        self.copy_2.place(relx=0.1, rely=0.8, anchor=ctk.CENTER)
                                       
 
 def main():
