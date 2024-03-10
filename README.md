@@ -1,11 +1,10 @@
 # Translator
 
-## About the project
+## About the project:
 
 To learn how to better use tkinter, I made this bare bones translator to test out some features
 
-## Installation instructions
-
+## Installation instructions:
 ```
 #run the following commands
 git clone https://github.com/JacobPercy/Translator.git
@@ -14,7 +13,7 @@ python3 -m pip install -r requirements.txt
 python3 -u main.py # to run the app
 ```
 
-## How to use
+## How to use:
 
 Once the program is launched, all you have to do is type input in the top and the language you want to use in the second box, and either hit "enter" or the "translate" button to get a result in the third box on the bottom of the screen. You can copy the output (or the input) by clicking the "copy" button corrosponding to the side that you want to get the information from. Additionally, you can swap the two sides with the "swap" button. To close the program, click the "X" button in the top right.
 
