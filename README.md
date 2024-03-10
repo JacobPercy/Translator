@@ -22,3 +22,5 @@ The program uses "translators" API to get translation data and currently uses th
 ## Quick note:
 
 This really isn't thank useful as google translate has the same functionality as this but is faster and more accesable. One of the main reasons this is even a public thing is so I can share it to people easier and I kind of just didn't want to put this whole "README" to waste so here you go.
+
+Also its not finished so keep that in mind. Thanks.
