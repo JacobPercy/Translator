@@ -4,6 +4,9 @@ import pyperclip as pc
 from text_to_speech import save
 from langdetect import detect
 import pyglet
+from mutagen.mp3 import MP3
+import os
+
 
 class App(ctk.CTk):
     
@@ -42,15 +45,12 @@ class App(ctk.CTk):
         
     def translate(self, entry, output_text, to_language_str):
         input_text = entry.get()
-        print(to_language_str)
 
         translated_result = ts.translate_text(input_text, 
                                               translator="google", 
                                               from_language="auto", 
                                               to_language=to_language_str)
         output_text.set(translated_result)
-        
-        print(translated_result)
 
     def swap_boxes(self):
         temp = self.input_text.get()
@@ -60,6 +60,12 @@ class App(ctk.CTk):
     def play_audio(self,str):
         save(text=str, lang=detect(str), file="output.mp3")
 
+        audio = MP3("output.mp3")
+        dur = audio.info.length
+        sound = pyglet.media.load("output.mp3")
+        sound.play()
+        pyglet.app.event_loop.sleep(dur)
+        os.remove("output.mp3")
 
     def launch_function(self):
         self.clear_screen()
@@ -142,6 +148,21 @@ class App(ctk.CTk):
                                width=10, 
                                command=lambda: pc.copy(self.output_text.get()))
         self.copy_2.place(relx=0.1, rely=0.8, anchor=ctk.CENTER)
+
+        #Audio player buttons
+        self.audio_1 = ctk.CTkButton(master=self, 
+                               text="Play", 
+                               height=10, 
+                               width=10, 
+                               command=lambda: self.play_audio(self.input_text.get()))
+        self.audio_1.place(relx=0.9, rely=0.2, anchor=ctk.CENTER)
+
+        self.audio_2 = ctk.CTkButton(master=self, 
+                               text="Play", 
+                               height=10, 
+                               width=10, 
+                               command=lambda: self.play_audio(self.output_text.get()))
+        self.audio_2.place(relx=0.9, rely=0.8, anchor=ctk.CENTER)
                                       
 
 def main():
