@@ -91,7 +91,7 @@ class App(ctk.CTk):
 
         #Box with language input
         self.to_lang = ctk.CTkEntry(master=self,
-                                    placeholder_text="Enter a language to translate to",
+                                    placeholder_text='Enter a language to translate to (example: "es")',
                                     width=500,
                                     height=40,
                                     border_width = 2,
