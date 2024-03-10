@@ -1,4 +1,8 @@
-translators
 customtkinter
+translators
 pyperclip
-languge_data
+text_to_speech
+langdetect
+pyglet
+mutagen.mp3
+os
