@@ -126,15 +126,15 @@ class App(ctk.CTk):
         #Copy buttons
         self.copy_1 = ctk.CTkButton(master=self, 
                                text="Copy", 
-                               height=1, 
-                               width=1, 
+                               height=10, 
+                               width=10, 
                                command=lambda: pc.copy(self.input_text.get()))
         self.copy_1.place(relx=0.1, rely=0.2, anchor=ctk.CENTER)
 
         self.copy_2 = ctk.CTkButton(master=self, 
                                text="Copy", 
-                               height=1, 
-                               width=1, 
+                               height=10, 
+                               width=10, 
                                command=lambda: pc.copy(self.output_text.get()))
         self.copy_2.place(relx=0.1, rely=0.8, anchor=ctk.CENTER)
                                       
