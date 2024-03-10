@@ -1,13 +1,15 @@
 import customtkinter as ctk
 import translators as ts
 import pyperclip as pc
+from text_to_speech import save
+from langdetect import detect
+import pyglet
 
 class App(ctk.CTk):
     
     def __init__(self):
         super().__init__()
         self.title("Translator")
-        #self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}+0+0")
         self.attributes("-fullscreen", True)
 
         self.width_1 = self.winfo_screenwidth()
@@ -55,6 +57,10 @@ class App(ctk.CTk):
         self.input_text.set(self.output_text.get())
         self.output_text.set(temp)
 
+    def play_audio(self,str):
+        save(text=str, lang=detect(str), file="output.mp3")
+
+
     def launch_function(self):
         self.clear_screen()
         self.close_button()
@@ -73,15 +79,17 @@ class App(ctk.CTk):
                                corner_radius=10,
                                font=("Calibri",30))
         self.entry.place(relx=0.5, rely=0.2, anchor=ctk.CENTER)
-        self.entry.bind("<Return>", lambda event: self.translate(self.entry,self.output_text,self.to_lang.get()))
+        self.entry.bind("<Return>", lambda event: self.translate(self.entry,
+                                                                 self.output_text,
+                                                                 self.to_lang.get()))
 
         #Box with language input
         self.to_lang = ctk.CTkEntry(master=self,
-                                    placeholder_text="type language to translate to",
+                                    placeholder_text="Enter a language to translate to",
                                     width=500,
                                     height=40,
                                     border_width = 2,
-                                    corner_radius=2,
+                                    corner_radius=5,
                                     font=("Calibri",20))
         self.to_lang.place(relx=0.5,rely=0.5,anchor=ctk.CENTER)
         self.to_lang.bind("<Return>",lambda event: self.translate(self.entry,
@@ -90,7 +98,7 @@ class App(ctk.CTk):
 
         #Bottom box (output)
         self.output_text = ctk.StringVar()
-        self.output_text.set("Type text to be translated")
+        self.output_text.set("Output")
         self.output_box = ctk.CTkEntry(master=self,
                                        textvariable=self.output_text, 
                                        width=int(0.75 * self.width_1), 
@@ -99,15 +107,12 @@ class App(ctk.CTk):
                                        corner_radius=10,
                                        font=("Calibri",30))
         self.output_box.place(relx=0.5, rely=0.8, anchor=ctk.CENTER)
-        #self.output_box.configure(state="disabled")
-
-        
 
         #Swap fields button
         self.swapper = ctk.CTkButton(master=self, 
                                text="Swap text", 
-                               height=1, 
-                               width=1, 
+                               height=10, 
+                               width=10, 
                                command=self.swap_boxes, 
                                font = ("Calibri", int(0.05 * self.height_1),'bold'))
         self.swapper.place(relx=0.8, rely=0.5, anchor=ctk.CENTER)
@@ -115,8 +120,8 @@ class App(ctk.CTk):
         #Translate button
         self.translate_button = ctk.CTkButton(master=self, 
                                text="Translate", 
-                               height=1, 
-                               width=1, 
+                               height=10, 
+                               width=10, 
                                command=lambda: self.translate(self.entry,
                                                               self.output_text,
                                                               self.to_lang.get()), 

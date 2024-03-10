@@ -1,3 +1,4 @@
 translators
 customtkinter
 pyperclip
+languge_data
