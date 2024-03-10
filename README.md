@@ -1,5 +1,3 @@
-# Translator
-
 ## About the project:
 
 To learn how to better use tkinter, I made this bare bones translator to test out some features
