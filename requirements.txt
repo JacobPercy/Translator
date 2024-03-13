@@ -4,5 +4,4 @@ pyperclip
 text_to_speech
 langdetect
 pyglet
-mutagen.mp3
-os
+mutagen
