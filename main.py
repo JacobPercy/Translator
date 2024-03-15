@@ -18,6 +18,8 @@ class App(ctk.CTk):
         self.width_1 = self.winfo_screenwidth()
         self.height_1 = self.winfo_screenheight()
 
+        print(self.width_1,self.height_1)
+
         self.window_title = ctk.CTkLabel(self,text="Translator",font = ("Calibri", int(0.25 * self.height_1)))
         self.window_title.pack(pady=20)
         button = ctk.CTkButton(master=self, 
@@ -188,10 +190,10 @@ class App(ctk.CTk):
                                placeholder_text="Type text to be translated",
                                textvariable=self.input_text,
                                width=int(0.75 * self.width_1),
-                               height=int(0.25 * self.height_1),
+                               height=int(0.2 * self.height_1),
                                border_width=10,
                                corner_radius=10,
-                               font=("Calibri",30))
+                               font=("Calibri",int(0.03 * self.height_1)))
         self.entry.place(relx=0.5, rely=0.2, anchor=ctk.CENTER)
         self.entry.bind("<Return>", lambda event: self.translate(self.entry,
                                                                  self.output_text,
@@ -200,7 +202,7 @@ class App(ctk.CTk):
         #Box with language input
         self.to_lang = ctk.CTkEntry(master=self,
                                     placeholder_text='Enter a language to translate to (example: "spanish")',
-                                    width=500,
+                                    width=int(0.4 * self.width_1),
                                     height=40,
                                     border_width = 2,
                                     corner_radius=5,
@@ -216,10 +218,10 @@ class App(ctk.CTk):
         self.output_box = ctk.CTkEntry(master=self,
                                        textvariable=self.output_text, 
                                        width=int(0.75 * self.width_1), 
-                                       height=int(0.25 * self.height_1),
+                                       height=int(0.2 * self.height_1),
                                        border_width=10,
                                        corner_radius=10,
-                                       font=("Calibri",30))
+                                       font=("Calibri",int(0.03 * self.height_1)))
         self.output_box.place(relx=0.5, rely=0.8, anchor=ctk.CENTER)
 
         #Swap fields button
@@ -245,30 +247,30 @@ class App(ctk.CTk):
         #Copy buttons
         self.copy_1 = ctk.CTkButton(master=self, 
                                text="Copy", 
-                               height=10, 
-                               width=10, 
+                               height=int(0.025 * self.height_1),
+                               width=int(0.03 * self.height_1),
                                command=lambda: pc.copy(self.input_text.get()))
         self.copy_1.place(relx=0.1, rely=0.2, anchor=ctk.CENTER)
 
         self.copy_2 = ctk.CTkButton(master=self, 
                                text="Copy", 
-                               height=10, 
-                               width=10, 
+                               height=int(0.025 * self.height_1),
+                               width=int(0.03 * self.height_1),
                                command=lambda: pc.copy(self.output_text.get()))
         self.copy_2.place(relx=0.1, rely=0.8, anchor=ctk.CENTER)
 
         #Audio player buttons
         self.audio_1 = ctk.CTkButton(master=self, 
                                text="Play", 
-                               height=10, 
-                               width=10, 
+                               height=int(0.025 * self.height_1),
+                               width=int(0.03 * self.height_1),
                                command=lambda: self.play_audio(self.input_text.get()))
         self.audio_1.place(relx=0.9, rely=0.2, anchor=ctk.CENTER)
 
         self.audio_2 = ctk.CTkButton(master=self, 
                                text="Play", 
-                               height=10, 
-                               width=10, 
+                               height=int(0.025 * self.height_1),
+                               width=int(0.03 * self.height_1),
                                command=lambda: self.play_audio(self.output_text.get()))
         self.audio_2.place(relx=0.9, rely=0.8, anchor=ctk.CENTER)
                                       
